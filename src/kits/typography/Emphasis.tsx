@@ -1,21 +1,11 @@
-import { StyleSheet, TextProps } from "react-native";
-import { Text } from "./Text";
+import { Text, TextComponentProps } from "./Text";
 
-export function Strong({ style, ...props }: TextProps) {
-  return <Text {...props} style={[styles.strong, style]} />;
+export function Strong(props: TextComponentProps) {
+  return <Text {...props} weight="bold" size={5} />;
 }
 
-export function Underline({ style, ...props }: TextProps) {
-  return <Text {...props} style={[styles.underline, style]} />;
+export function Underline(props: TextComponentProps) {
+  return (
+    <Text {...props} size={5} style={{ textDecorationLine: "underline" }} />
+  );
 }
-
-const styles = StyleSheet.create({
-  strong: {
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-  underline: {
-    textDecorationLine: "underline",
-    fontSize: 16,
-  },
-});

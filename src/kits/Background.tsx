@@ -1,11 +1,10 @@
 import { ReactNode } from "react";
-import { StyleSheet, View } from "react-native";
+import { Box } from "./Box";
 
 export function Background({ children }: { children: ReactNode }) {
-  return <View style={styles.wrapper}>{children}</View>;
+  return (
+    <Box as="div" backgroundColor="red" height="100%">
+      {children}
+    </Box>
+  );
 }
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
-});

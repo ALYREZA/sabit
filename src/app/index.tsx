@@ -1,15 +1,12 @@
-import { Text, View } from "react-native";
+import { Background } from "../kits/Background";
+import { GestureExample } from "../kits/GestureExample";
+import { Paragraph } from "../kits/typography/Paragraph";
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+    <Background>
+      <Paragraph>React Native Gesture Handler Demo</Paragraph>
+      <GestureExample title="Try the gestures below!" />
+    </Background>
   );
 }

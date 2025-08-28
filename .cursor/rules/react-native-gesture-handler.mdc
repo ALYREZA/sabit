@@ -1,5 +1,8 @@
 # React Native Gesture Handler Usage
 
+
+This rule ensures consistent use of `react-native-gesture-handler` components throughout the codebase for improved gesture handling, performance, and cross-platform consistency. Always prefer gesture handler components over standard React Native components.
+
 Always prefer `react-native-gesture-handler` components over standard `react-native` components for better gesture handling and performance.
 
 ## Import Guidelines

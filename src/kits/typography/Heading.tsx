@@ -1,47 +1,18 @@
-import { StyleSheet, TextProps } from "react-native";
-import { Text } from "./Text";
+import { Text, TextComponentProps } from "./Text";
 
-interface HeadingProps extends TextProps {
+interface HeadingProps extends TextComponentProps {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
-export function Heading({ level = 1, style, ...props }: HeadingProps) {
-  const headingStyle = [
-    styles.heading,
-    styles[`h${level}` as keyof typeof styles],
-    style,
-  ];
+export function Heading({ level = 1, ...props }: HeadingProps) {
+  const sizeMap: Record<number, 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9> = {
+    1: 9,
+    2: 8,
+    3: 7,
+    4: 6,
+    5: 5,
+    6: 4,
+  };
 
-  return <Text {...props} style={headingStyle} />;
+  return <Text {...props} size={sizeMap[level]} weight="bold" color="gray" />;
 }
-
-const styles = StyleSheet.create({
-  heading: {
-    fontWeight: "bold",
-    color: "#000",
-  },
-  h1: {
-    fontSize: 32,
-    lineHeight: 40,
-  },
-  h2: {
-    fontSize: 28,
-    lineHeight: 36,
-  },
-  h3: {
-    fontSize: 24,
-    lineHeight: 32,
-  },
-  h4: {
-    fontSize: 20,
-    lineHeight: 28,
-  },
-  h5: {
-    fontSize: 18,
-    lineHeight: 24,
-  },
-  h6: {
-    fontSize: 16,
-    lineHeight: 22,
-  },
-});

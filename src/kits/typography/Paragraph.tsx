@@ -1,13 +1,5 @@
-import { StyleSheet, TextProps } from "react-native";
-import { Text } from "./Text";
+import { Text, TextComponentProps } from "./Text";
 
-export function Paragraph(props: TextProps) {
-  return <Text {...props} style={styles.paragraph} />;
+export function Paragraph(props: TextComponentProps) {
+  return <Text {...props} size={5} />;
 }
-
-const styles = StyleSheet.create({
-  paragraph: {
-    fontSize: 18,
-    lineHeight: 24,
-  },
-});
