@@ -626,47 +626,7 @@ function buildStylesFromProps(props: BoxProps): ViewStyle {
 }
 
 export function Box({ children, style, ...props }: BoxProps) {
-  const computedStyles = useMemo(
-    () => buildStylesFromProps(props),
-    [
-      props.p,
-      props.px,
-      props.py,
-      props.pt,
-      props.pr,
-      props.pb,
-      props.pl,
-      props.m,
-      props.mx,
-      props.my,
-      props.mt,
-      props.mr,
-      props.mb,
-      props.ml,
-      props.width,
-      props.minWidth,
-      props.maxWidth,
-      props.height,
-      props.minHeight,
-      props.maxHeight,
-      props.position,
-      props.top,
-      props.right,
-      props.bottom,
-      props.left,
-      props.overflow,
-      props.flexBasis,
-      props.flexShrink,
-      props.flexGrow,
-      props.display,
-      props.backgroundColor,
-      props.borderRadius,
-      props.borderTopLeftRadius,
-      props.borderTopRightRadius,
-      props.borderBottomLeftRadius,
-      props.borderBottomRightRadius,
-    ],
-  );
+  const computedStyles = useMemo(() => buildStylesFromProps(props), [props]);
 
   return <View style={[computedStyles, style]}>{children}</View>;
 }
