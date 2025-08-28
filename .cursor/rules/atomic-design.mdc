@@ -1,0 +1,150 @@
+# Atomic Design Principles
+
+Follow atomic design methodology for component organization in the `kits` folder. This creates a scalable and maintainable component system.
+
+## Atomic Design Hierarchy
+
+### 1. Atoms
+**Location**: `src/kits/atoms/`
+**Purpose**: Basic building blocks - the smallest functional units
+
+```typescript
+// src/kits/atoms/Button.tsx
+export interface ButtonProps {
+  title: string;
+  onPress: () => void;
+  variant?: 'primary' | 'secondary';
+  size?: 'small' | 'medium' | 'large';
+}
+
+export const Button: React.FC<ButtonProps> = ({ title, onPress, variant = 'primary', size = 'medium' }) => {
+  // Implementation
+};
+```
+
+**Examples**: Button, Input, Text, Icon, Avatar
+
+### 2. Molecules
+**Location**: `src/kits/molecules/`
+**Purpose**: Simple combinations of atoms that work together
+
+```typescript
+// src/kits/molecules/SearchBar.tsx
+import { Input } from '../atoms/Input';
+import { Button } from '../atoms/Button';
+
+export interface SearchBarProps {
+  onSearch: (query: string) => void;
+  placeholder?: string;
+}
+
+export const SearchBar: React.FC<SearchBarProps> = ({ onSearch, placeholder }) => {
+  // Implementation combining Input and Button atoms
+};
+```
+
+**Examples**: SearchBar, FormField, Card, NavigationItem
+
+### 3. Organisms
+**Location**: `src/kits/organisms/`
+**Purpose**: Complex UI components composed of molecules and atoms
+
+```typescript
+// src/kits/organisms/BookCard.tsx
+import { Card } from '../molecules/Card';
+import { Button } from '../atoms/Button';
+import { Text } from '../atoms/Text';
+
+export interface BookCardProps {
+  book: Book;
+  onBorrow: (bookId: string) => void;
+  onView: (bookId: string) => void;
+}
+
+export const BookCard: React.FC<BookCardProps> = ({ book, onBorrow, onView }) => {
+  // Implementation combining multiple molecules and atoms
+};
+```
+
+**Examples**: BookCard, VideoPlayer, NavigationBar, BookList
+
+### 4. Templates
+**Location**: `src/kits/templates/`
+**Purpose**: Page-level layouts that define the structure
+
+```typescript
+// src/kits/templates/PageLayout.tsx
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationBar } from '../organisms/NavigationBar';
+
+export interface PageLayoutProps {
+  children: React.ReactNode;
+  title?: string;
+  showBackButton?: boolean;
+}
+
+export const PageLayout: React.FC<PageLayoutProps> = ({ children, title, showBackButton }) => {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <NavigationBar title={title} showBackButton={showBackButton} />
+      {children}
+    </SafeAreaView>
+  );
+};
+```
+
+**Examples**: PageLayout, ModalLayout, TabLayout
+
+## Component Guidelines
+
+### Naming Convention
+- Use PascalCase for component names
+- Use descriptive, semantic names
+- Include the component type in the filename: `Button.tsx`, `SearchBar.tsx`
+
+### File Structure
+```
+src/kits/
+├── atoms/
+│   ├── Button/
+│   │   ├── Button.tsx
+│   │   ├── Button.test.tsx
+│   │   └── index.ts
+│   └── Input/
+│       ├── Input.tsx
+│       ├── Input.test.tsx
+│       └── index.ts
+├── molecules/
+├── organisms/
+└── templates/
+```
+
+### Component Exports
+Always create an `index.ts` file for clean imports:
+
+```typescript
+// src/kits/atoms/Button/index.ts
+export { Button } from './Button';
+export type { ButtonProps } from './Button';
+```
+
+### Usage in Features
+Import components from kits in feature folders:
+
+```typescript
+// src/features/books/components/BookList.tsx
+import { BookCard } from '../../../kits/organisms/BookCard';
+import { SearchBar } from '../../../kits/molecules/SearchBar';
+import { PageLayout } from '../../../kits/templates/PageLayout';
+```
+
+## Design Principles
+1. **Single Responsibility**: Each component has one clear purpose
+2. **Composability**: Components can be easily combined
+3. **Reusability**: Components work across different contexts
+4. **Consistency**: Similar components follow the same patterns
+5. **Accessibility**: All components support accessibility features
+description:
+globs:
+alwaysApply: true
+---

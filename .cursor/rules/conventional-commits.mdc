@@ -1,0 +1,77 @@
+# Conventional Commits Specification
+
+Follow the [Conventional Commits 1.0.0 specification](https://www.conventionalcommits.org/en/v1.0.0/#specification) for all commit messages.
+
+## Commit Message Structure
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+## Commit Types
+
+### Primary Types
+- **feat**: New feature (correlates with MINOR in SemVer)
+- **fix**: Bug fix (correlates with PATCH in SemVer)
+
+### Additional Types
+- **build**: Changes that affect the build system or external dependencies
+- **chore**: Other changes that don't modify src or test files
+- **ci**: Changes to CI configuration files and scripts
+- **docs**: Documentation only changes
+- **style**: Changes that do not affect the meaning of the code
+- **refactor**: Code change that neither fixes a bug nor adds a feature
+- **perf**: Code change that improves performance
+- **test**: Adding missing tests or correcting existing tests
+- **revert**: Reverts a previous commit
+
+## Breaking Changes
+
+Indicate breaking changes using:
+1. `!` after type/scope: `feat!: breaking change`
+2. `BREAKING CHANGE:` footer: `BREAKING CHANGE: description`
+
+## Examples
+
+### Feature with scope
+```
+feat(books): add book search functionality
+```
+
+### Bug fix
+```
+fix(videos): resolve video player crash on iOS
+```
+
+### Breaking change
+```
+feat(api)!: change authentication endpoint structure
+
+BREAKING CHANGE: Authentication now requires Bearer token instead of API key
+```
+
+### Documentation
+```
+docs: update README with installation instructions
+```
+
+### Style changes
+```
+style: format code with prettier
+```
+
+## Guidelines
+1. Use lowercase for type and scope
+2. Keep description under 72 characters
+3. Use imperative mood ("add" not "added")
+4. Don't capitalize first letter of description
+5. Don't end description with a period
+6. Use scope to indicate which part of the codebase is affected
+description:
+globs:
+alwaysApply: true
+---

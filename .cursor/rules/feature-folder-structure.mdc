@@ -1,0 +1,228 @@
+# Feature-Based Folder Structure
+
+Organize code by features rather than technical concerns for better scalability and maintainability.
+
+## Feature Folder Structure
+
+Each feature should be self-contained with its own components, hooks, services, and types.
+
+```
+src/features/
+├── books/
+│   ├── components/
+│   │   ├── BookList.tsx
+│   │   ├── BookCard.tsx
+│   │   ├── BookDetail.tsx
+│   │   └── BookSearch.tsx
+│   ├── hooks/
+│   │   ├── useBooks.ts
+│   │   ├── useBookSearch.ts
+│   │   └── useBookBorrow.ts
+│   ├── services/
+│   │   ├── bookApi.ts
+│   │   └── bookStorage.ts
+│   ├── types/
+│   │   └── book.types.ts
+│   ├── utils/
+│   │   └── bookUtils.ts
+│   └── index.ts
+├── videos/
+│   ├── components/
+│   │   ├── VideoList.tsx
+│   │   ├── VideoPlayer.tsx
+│   │   └── VideoThumbnail.tsx
+│   ├── hooks/
+│   │   ├── useVideos.ts
+│   │   └── useVideoPlayer.ts
+│   ├── services/
+│   │   └── videoApi.ts
+│   ├── types/
+│   │   └── video.types.ts
+│   └── index.ts
+├── auth/
+│   ├── components/
+│   │   ├── LoginForm.tsx
+│   │   └── SignupForm.tsx
+│   ├── hooks/
+│   │   ├── useAuth.ts
+│   │   └── useLogin.ts
+│   ├── services/
+│   │   └── authApi.ts
+│   ├── types/
+│   │   └── auth.types.ts
+│   └── index.ts
+└── profile/
+    ├── components/
+    │   ├── ProfileHeader.tsx
+    │   ├── ProfileForm.tsx
+    │   └── BorrowedItems.tsx
+    ├── hooks/
+    │   ├── useProfile.ts
+    │   └── useBorrowedItems.ts
+    ├── services/
+    │   └── profileApi.ts
+    ├── types/
+    │   └── profile.types.ts
+    └── index.ts
+```
+
+## Feature Organization Guidelines
+
+### 1. Components (`components/`)
+- Feature-specific UI components
+- Import from `kits` for reusable components
+- Keep components focused and single-purpose
+
+```typescript
+// src/features/books/components/BookList.tsx
+import { BookCard } from '../../../kits/organisms/BookCard';
+import { useBooks } from '../hooks/useBooks';
+import { Book } from '../types/book.types';
+
+export const BookList: React.FC = () => {
+  const { books, isLoading } = useBooks();
+  
+  if (isLoading) return <LoadingSpinner />;
+  
+  return (
+    <FlatList
+      data={books}
+      renderItem={({ item }) => <BookCard book={item} />}
+      keyExtractor={(item) => item.id}
+    />
+  );
+};
+```
+
+### 2. Hooks (`hooks/`)
+- Custom React hooks for feature logic
+- Handle data fetching, state management, and business logic
+- Use TanStack Query for data operations
+
+```typescript
+// src/features/books/hooks/useBooks.ts
+import { useQuery } from '@tanstack/react-query';
+import { bookApi } from '../services/bookApi';
+
+export const useBooks = () => {
+  return useQuery({
+    queryKey: ['books'],
+    queryFn: bookApi.getBooks,
+  });
+};
+```
+
+### 3. Services (`services/`)
+- API calls and external service integrations
+- Use ky for HTTP requests
+- Handle data transformation and error handling
+
+```typescript
+// src/features/books/services/bookApi.ts
+import ky from 'ky';
+import { Book } from '../types/book.types';
+
+const api = ky.create({
+  prefixUrl: process.env.EXPO_PUBLIC_API_URL,
+});
+
+export const bookApi = {
+  getBooks: async (): Promise<Book[]> => {
+    return api.get('books').json();
+  },
+  
+  getBook: async (id: string): Promise<Book> => {
+    return api.get(`books/${id}`).json();
+  },
+  
+  borrowBook: async (bookId: string): Promise<void> => {
+    return api.post(`books/${bookId}/borrow`).json();
+  },
+};
+```
+
+### 4. Types (`types/`)
+- TypeScript type definitions for the feature
+- Export interfaces and types used across the feature
+
+```typescript
+// src/features/books/types/book.types.ts
+export interface Book {
+  id: string;
+  title: string;
+  author: string;
+  isbn: string;
+  coverUrl: string;
+  description: string;
+  available: boolean;
+  category: string;
+  publishedYear: number;
+}
+
+export interface BookSearchParams {
+  query?: string;
+  category?: string;
+  author?: string;
+  available?: boolean;
+}
+```
+
+### 5. Utils (`utils/`)
+- Helper functions and utilities specific to the feature
+- Pure functions for data manipulation and formatting
+
+```typescript
+// src/features/books/utils/bookUtils.ts
+import { Book } from '../types/book.types';
+
+export const formatBookTitle = (title: string): string => {
+  return title.charAt(0).toUpperCase() + title.slice(1);
+};
+
+export const filterBooksByCategory = (books: Book[], category: string): Book[] => {
+  return books.filter(book => book.category === category);
+};
+```
+
+### 6. Index File (`index.ts`)
+- Export public API of the feature
+- Control what other features can access
+
+```typescript
+// src/features/books/index.ts
+export { BookList } from './components/BookList';
+export { BookCard } from './components/BookCard';
+export { useBooks } from './hooks/useBooks';
+export type { Book, BookSearchParams } from './types/book.types';
+```
+
+## Cross-Feature Communication
+
+### Shared State
+Use shared hooks and services for cross-feature communication:
+
+```typescript
+// src/shared/hooks/useAuth.ts
+export const useAuth = () => {
+  // Authentication logic shared across features
+};
+```
+
+### Feature Dependencies
+Import from other features through their index files:
+
+```typescript
+// src/features/books/components/BookCard.tsx
+import { useAuth } from '../../auth'; // Import from auth feature
+```
+
+## Benefits
+1. **Scalability**: Easy to add new features without affecting existing ones
+2. **Maintainability**: Related code is co-located
+3. **Team Collaboration**: Multiple developers can work on different features
+4. **Testing**: Features can be tested in isolation
+5. **Code Splitting**: Features can be lazy-loaded
+description:
+globs:
+alwaysApply: true
+---

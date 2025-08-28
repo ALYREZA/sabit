@@ -1,0 +1,484 @@
+# React Hook Form Usage
+
+Use React Hook Form with Zod version 4 for all form management and validation to ensure optimal performance and user experience.
+
+## Setup
+
+### Form Provider Setup
+```typescript
+// src/app/_layout.tsx
+import { FormProvider } from 'react-hook-form';
+
+export default function RootLayout() {
+  return (
+    <FormProvider>
+      {/* Your app content */}
+    </FormProvider>
+  );
+}
+```
+
+## Form Patterns
+
+### Basic Form
+```typescript
+// src/features/auth/components/LoginForm.tsx
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod'; // Zod v4
+
+const loginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
+
+export const LoginForm: React.FC = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      await loginUser(data);
+      reset();
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            placeholder="Email"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={errors.email?.message}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="password"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            placeholder="Password"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={errors.password?.message}
+            secureTextEntry
+          />
+        )}
+      />
+
+      <Button
+        title="Login"
+        onPress={handleSubmit(onSubmit)}
+        loading={isSubmitting}
+        disabled={isSubmitting}
+      />
+    </View>
+  );
+};
+```
+
+### Complex Form with Validation
+```typescript
+// src/features/books/components/BookSearchForm.tsx
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod'; // Zod v4
+
+const searchSchema = z.object({
+  query: z.string().min(1, 'Search query is required'),
+  category: z.string().optional(),
+  author: z.string().optional(),
+  available: z.boolean().optional(),
+  publishedYear: z.number().min(1900).max(new Date().getFullYear()).optional(),
+});
+
+type SearchFormData = z.infer<typeof searchSchema>;
+
+export const BookSearchForm: React.FC<{ onSearch: (data: SearchFormData) => void }> = ({ onSearch }) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    reset,
+  } = useForm<SearchFormData>({
+    resolver: zodResolver(searchSchema),
+    defaultValues: {
+      query: '',
+      category: '',
+      author: '',
+      available: false,
+      publishedYear: undefined,
+    },
+  });
+
+  const watchedQuery = watch('query');
+
+  return (
+    <View style={styles.container}>
+      <Controller
+        control={control}
+        name="query"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            placeholder="Search books..."
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={errors.query?.message}
+            rightIcon={watchedQuery ? 'search' : undefined}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="category"
+        render={({ field: { onChange, value } }) => (
+          <Picker
+            selectedValue={value}
+            onValueChange={onChange}
+            placeholder="Select category"
+          >
+            <Picker.Item label="All Categories" value="" />
+            <Picker.Item label="Fiction" value="fiction" />
+            <Picker.Item label="Non-Fiction" value="non-fiction" />
+            <Picker.Item label="Science" value="science" />
+          </Picker>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="available"
+        render={({ field: { onChange, value } }) => (
+          <CheckBox
+            title="Available only"
+            checked={value}
+            onPress={() => onChange(!value)}
+          />
+        )}
+      />
+
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Search"
+          onPress={handleSubmit(onSearch)}
+          variant="primary"
+        />
+        <Button
+          title="Clear"
+          onPress={() => reset()}
+          variant="secondary"
+        />
+      </View>
+    </View>
+  );
+};
+```
+
+### Form with File Upload
+```typescript
+// src/features/profile/components/ProfileForm.tsx
+import { useForm } from 'react-hook-form';
+import { z } from 'zod'; // Zod v4
+import * as ImagePicker from 'expo-image-picker';
+
+const profileSchema = z.object({
+  firstName: z.string().min(1, 'First name is required'),
+  lastName: z.string().min(1, 'Last name is required'),
+  email: z.string().email('Invalid email address'),
+  avatar: z.any().optional(),
+  bio: z.string().max(500, 'Bio must be less than 500 characters').optional(),
+});
+
+type ProfileFormData = z.infer<typeof profileSchema>;
+
+export const ProfileForm: React.FC = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setValue,
+    watch,
+  } = useForm<ProfileFormData>({
+    resolver: zodResolver(profileSchema),
+  });
+
+  const watchedAvatar = watch('avatar');
+
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.8,
+    });
+
+    if (!result.canceled) {
+      setValue('avatar', result.assets[0]);
+    }
+  };
+
+  const onSubmit = async (data: ProfileFormData) => {
+    try {
+      await updateProfile(data);
+    } catch (error) {
+      console.error('Profile update failed:', error);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity onPress={pickImage} style={styles.avatarContainer}>
+        {watchedAvatar ? (
+          <Image source={{ uri: watchedAvatar.uri }} style={styles.avatar} />
+        ) : (
+          <View style={styles.avatarPlaceholder}>
+            <Icon name="camera" size={24} />
+          </View>
+        )}
+      </TouchableOpacity>
+
+      <Controller
+        control={control}
+        name="firstName"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            placeholder="First Name"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={errors.firstName?.message}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="lastName"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            placeholder="Last Name"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={errors.lastName?.message}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="bio"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextArea
+            placeholder="Bio"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={errors.bio?.message}
+            maxLength={500}
+          />
+        )}
+      />
+
+      <Button
+        title="Update Profile"
+        onPress={handleSubmit(onSubmit)}
+        loading={isSubmitting}
+        disabled={isSubmitting}
+      />
+    </View>
+  );
+};
+```
+
+## Custom Form Components
+
+### Reusable Form Input
+```typescript
+// src/kits/molecules/FormInput.tsx
+import { Controller, Control, FieldError } from 'react-hook-form';
+import { Input } from '../atoms/Input';
+
+interface FormInputProps {
+  control: Control<any>;
+  name: string;
+  placeholder?: string;
+  error?: FieldError;
+  [key: string]: any;
+}
+
+export const FormInput: React.FC<FormInputProps> = ({
+  control,
+  name,
+  placeholder,
+  error,
+  ...props
+}) => {
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field: { onChange, onBlur, value } }) => (
+        <Input
+          placeholder={placeholder}
+          value={value}
+          onChangeText={onChange}
+          onBlur={onBlur}
+          error={error?.message}
+          {...props}
+        />
+      )}
+    />
+  );
+};
+```
+
+### Form Validation Schema
+```typescript
+// src/shared/validations/auth.ts
+import { z } from 'zod'; // Zod v4
+
+export const loginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});
+
+export const signupSchema = z.object({
+  firstName: z.string().min(1, 'First name is required'),
+  lastName: z.string().min(1, 'Last name is required'),
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
+export const bookSearchSchema = z.object({
+  query: z.string().min(1, 'Search query is required'),
+  category: z.string().optional(),
+  author: z.string().optional(),
+  available: z.boolean().optional(),
+});
+```
+
+## Best Practices
+
+### 1. Use Zod for Validation
+Always use Zod schemas for type-safe validation:
+```typescript
+const schema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
+type FormData = z.infer<typeof schema>;
+```
+
+### 2. Custom Hooks for Forms
+Create custom hooks for reusable form logic:
+```typescript
+// src/features/auth/hooks/useLoginForm.ts
+export const useLoginForm = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
+    // Form submission logic
+  };
+
+  return {
+    control,
+    handleSubmit,
+    errors,
+    isSubmitting,
+    onSubmit,
+    reset,
+  };
+};
+```
+
+### 3. Form State Management
+Use form state for conditional rendering:
+```typescript
+const { isDirty, isValid, isSubmitting } = formState;
+
+// Only show submit button if form is dirty and valid
+{isDirty && isValid && (
+  <Button
+    title="Submit"
+    onPress={handleSubmit(onSubmit)}
+    loading={isSubmitting}
+  />
+)}
+```
+
+### 4. Error Handling
+Provide clear error messages and handle submission errors:
+```typescript
+const onSubmit = async (data: FormData) => {
+  try {
+    await submitData(data);
+    reset();
+    showSuccessMessage('Form submitted successfully');
+  } catch (error) {
+    setError('root', {
+      type: 'manual',
+      message: 'Submission failed. Please try again.',
+    });
+  }
+};
+```
+
+### 5. Performance Optimization
+Use `useCallback` for form handlers and memoize expensive validations:
+```typescript
+const onSubmit = useCallback(async (data: FormData) => {
+  // Form submission logic
+}, []);
+
+const validationSchema = useMemo(() => z.object({
+  // Validation schema
+}), []);
+```
+description:
+globs:
+alwaysApply: true
+---

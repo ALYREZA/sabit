@@ -1,0 +1,84 @@
+# React Native Gesture Handler Usage
+
+Always prefer `react-native-gesture-handler` components over standard `react-native` components for better gesture handling and performance.
+
+## Import Guidelines
+
+### Preferred Imports
+```typescript
+// ✅ Use these imports
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import { TapGestureHandler } from 'react-native-gesture-handler';
+```
+
+### Avoid These Imports
+```typescript
+// ❌ Avoid these imports
+import { TouchableOpacity } from 'react-native';
+import { ScrollView } from 'react-native';
+```
+
+## Component Replacements
+
+| React Native | Gesture Handler | Use Case |
+|--------------|----------------|----------|
+| `TouchableOpacity` | `TouchableOpacity` | Button interactions |
+| `ScrollView` | `ScrollView` | Scrollable content |
+| `TouchableHighlight` | `TouchableOpacity` | Button with feedback |
+| `TouchableWithoutFeedback` | `TouchableOpacity` | Custom touch handling |
+
+## Gesture Handlers
+
+Use specific gesture handlers for complex interactions:
+
+```typescript
+import { 
+  PanGestureHandler, 
+  TapGestureHandler, 
+  PinchGestureHandler,
+  RotationGestureHandler,
+  FlingGestureHandler 
+} from 'react-native-gesture-handler';
+
+// Example: Pan gesture for drag operations
+<PanGestureHandler onGestureEvent={onPanGestureEvent}>
+  <Animated.View>
+    {/* Draggable content */}
+  </Animated.View>
+</PanGestureHandler>
+```
+
+## Setup Requirements
+
+Ensure `react-native-gesture-handler` is properly configured in your app:
+
+1. Import at the top of your entry file:
+```typescript
+import 'react-native-gesture-handler';
+```
+
+2. Use `GestureHandlerRootView` as the root component:
+```typescript
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+export default function App() {
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      {/* Your app content */}
+    </GestureHandlerRootView>
+  );
+}
+```
+
+## Benefits
+- Better gesture recognition
+- Improved performance
+- More consistent behavior across platforms
+- Enhanced accessibility support
+- Better integration with React Native Reanimated
+description:
+globs:
+alwaysApply: true
+---
