@@ -3,7 +3,7 @@ import { Box } from "./Box";
 
 export function Background({ children }: { children: ReactNode }) {
   return (
-    <Box as="div" backgroundColor="red" height="100%">
+    <Box as="div" height="100%">
       {children}
     </Box>
   );

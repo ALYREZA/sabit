@@ -232,6 +232,12 @@ type Overflow = "visible" | "hidden" | "scroll" | "auto";
 // Flex values
 type FlexValue = "0" | "1" | "auto" | "initial" | "none";
 
+// Flex direction values
+type FlexDirection = "row" | "row-reverse" | "column" | "column-reverse";
+
+// Flex wrap values
+type FlexWrap = "nowrap" | "wrap" | "wrap-reverse";
+
 // Grid values
 type GridValue = string;
 
@@ -297,9 +303,16 @@ export interface BoxProps {
   overflowY?: Responsive<Overflow>;
 
   // Flex
+  flexDirection?: Responsive<FlexDirection>;
+  flexWrap?: Responsive<FlexWrap>;
   flexBasis?: Responsive<string>;
   flexShrink?: Responsive<FlexValue>;
   flexGrow?: Responsive<FlexValue>;
+
+  // Gap
+  gap?: Responsive<SpacingScale | string>;
+  rowGap?: Responsive<SpacingScale | string>;
+  columnGap?: Responsive<SpacingScale | string>;
 
   // Grid
   gridArea?: Responsive<GridValue>;
@@ -598,6 +611,17 @@ function buildStylesFromProps(props: BoxProps): ViewStyle {
   }
 
   // Flex
+  if (props.flexDirection) {
+    const flexDirection = processResponsiveString(
+      props.flexDirection,
+      (val) => val,
+    );
+    if (flexDirection) styles.flexDirection = flexDirection as any;
+  }
+  if (props.flexWrap) {
+    const flexWrap = processResponsiveString(props.flexWrap, (val) => val);
+    if (flexWrap) styles.flexWrap = flexWrap as any;
+  }
   if (props.flexBasis) {
     const flexBasis = processResponsiveDimension(
       props.flexBasis,
@@ -620,6 +644,23 @@ function buildStylesFromProps(props: BoxProps): ViewStyle {
       return val;
     });
     if (flexGrow !== undefined) styles.flexGrow = parseInt(flexGrow);
+  }
+
+  // Gap
+  if (props.gap) {
+    const gap = processResponsiveDimension(props.gap, getSpacingValue);
+    if (gap) styles.gap = gap as any;
+  }
+  if (props.rowGap) {
+    const rowGap = processResponsiveDimension(props.rowGap, getSpacingValue);
+    if (rowGap) styles.rowGap = rowGap as any;
+  }
+  if (props.columnGap) {
+    const columnGap = processResponsiveDimension(
+      props.columnGap,
+      getSpacingValue,
+    );
+    if (columnGap) styles.columnGap = columnGap as any;
   }
 
   return styles;
