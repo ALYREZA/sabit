@@ -1,3 +1,9 @@
+---
+description: Follow the Conventional Commits 1.0.0 specification for all commit messages
+globs: ["**/*"]
+alwaysApply: true
+---
+
 # Conventional Commits Specification
 
 Follow the [Conventional Commits 1.0.0 specification](https://www.conventionalcommits.org/en/v1.0.0/#specification) for all commit messages.
