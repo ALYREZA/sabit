@@ -6,6 +6,8 @@ type TextAlign = "left" | "center" | "right";
 type TextTrim = "normal" | "start" | "end" | "both";
 type TextWrap = "wrap" | "nowrap" | "pretty" | "balance";
 type TextColor =
+  | "black"
+  | "white"
   | "gray"
   | "mauve"
   | "slate"
@@ -151,6 +153,8 @@ const styles = StyleSheet.create({
   coloramber: { color: "#F59E0B" },
   colorgold: { color: "#F59E0B" },
   colorbronze: { color: "#CD7F32" },
+  colorblack: { color: "#000000" },
+  colorwhite: { color: "#FFFFFF" },
 
   // High contrast
   highContrast: {

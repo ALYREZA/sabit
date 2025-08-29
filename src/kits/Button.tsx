@@ -1,4 +1,4 @@
-import { Text } from "@/src/kits/typography/Text";
+import { Text } from "@/kits/typography/Text";
 import { StyleSheet, View } from "react-native";
 import {
   RectButton as RNButton,
@@ -9,7 +9,7 @@ export function Button(props: RectButtonProps) {
   return (
     <RNButton {...props} style={styles.button}>
       <View accessible accessibilityRole="button">
-        <Text>{props.children}</Text>
+        <Text color="white">{props.children}</Text>
       </View>
     </RNButton>
   );
