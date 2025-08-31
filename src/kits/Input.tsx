@@ -10,5 +10,6 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     padding: 10,
     borderRadius: 10,
+    minWidth: 328,
   },
 });

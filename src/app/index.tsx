@@ -1,16 +1,5 @@
-import { Col } from "@/components/Col";
-import { Background } from "@/kits/Background";
-import { Button } from "@/kits/Button";
-import { Input } from "@/kits/Input";
+import { Redirect } from "expo-router";
 
 export default function Index() {
-  return (
-    <Background>
-      {/* Test Col with height */}
-      <Col gap="20">
-        <Input />
-        <Button>Submit</Button>
-      </Col>
-    </Background>
-  );
+  return <Redirect href="/(auth)/login" />;
 }
