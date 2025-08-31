@@ -13,6 +13,7 @@ module.exports = (expoConfig: ExpoConfig) => ({
     supportsTablet: true,
   },
   android: {
+    package: "com.parslib.sabit",
     adaptiveIcon: {
       foregroundImage: "./assets/images/adaptive-icon.png",
       backgroundColor: "#ffffff",
