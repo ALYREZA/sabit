@@ -30,17 +30,18 @@ export function Background({
   enabledKeyboardAwareScrollView = false,
 }: BackgroundProps) {
   return (
-    <Box
-      px="5"
-      gap="10"
-      style={{ justifyContent, alignItems, flex: 1, height: "100%" }}
+    <KeyboardAwareScrollView
+      contentContainerStyle={{ flex: 1 }}
+      enabled={enabledKeyboardAwareScrollView}
+      ScrollViewComponent={ScrollView}
     >
-      <KeyboardAwareScrollView
-        enabled={enabledKeyboardAwareScrollView}
-        ScrollViewComponent={ScrollView}
+      <Box
+        px="5"
+        gap="10"
+        style={{ justifyContent, alignItems, flex: 1, height: "100%" }}
       >
         {children}
-      </KeyboardAwareScrollView>
-    </Box>
+      </Box>
+    </KeyboardAwareScrollView>
   );
 }

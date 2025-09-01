@@ -1,28 +1,32 @@
 import { Button } from "@/kits/Button";
 import { Input } from "@/kits/Input";
-import { Text } from "@/kits/typography/Text";
+import { Heading } from "@/kits/typography";
 import { StyleSheet, View } from "react-native";
 
 function Login() {
   return (
-    <View style={styles.container}>
-      <Text>ورود یا ثبت نام</Text>
+    <>
+      <Heading level={1} style={styles.title}>
+        ورود یا ثبت نام
+      </Heading>
+
       <View style={styles.form}>
         <Input keyboardType="number-pad" />
         <Button>ورود یا ثبت نام</Button>
       </View>
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 12,
+  title: {
+    textAlign: "center",
+    marginBottom: 30,
+    color: "#1C39BB",
   },
   form: {
     gap: 37,
+    marginBottom: 40,
   },
 });
 
