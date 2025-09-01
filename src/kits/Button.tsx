@@ -48,6 +48,7 @@ function getButtonStyles(
 ) {
   const baseStyles = {
     borderRadius: 16,
+    fontSize: 14,
     alignSelf: "center" as const,
     justifyContent: "center" as const,
     alignItems: "center" as const,

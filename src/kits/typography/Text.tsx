@@ -1,4 +1,10 @@
-import { Text as RNText, StyleSheet, TextProps, TextStyle } from "react-native";
+import {
+  Text as RNText,
+  StyleSheet,
+  TextInputProps,
+  TextProps,
+  TextStyle,
+} from "react-native";
 
 type TextSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 type TextWeight = "light" | "regular" | "medium" | "bold";
@@ -50,7 +56,7 @@ export interface TextComponentProps extends Omit<TextProps, "style"> {
   color?: TextColor;
   highContrast?: boolean;
   fontFamily?: string;
-  style?: TextStyle | TextStyle[];
+  style?: TextInputProps["style"];
 }
 
 export function Text({

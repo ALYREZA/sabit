@@ -1,9 +1,19 @@
 import { Button } from "@/kits/Button";
 import { Input } from "@/kits/Input";
 import { Heading } from "@/kits/typography";
+import { router } from "expo-router";
+import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 function Login() {
+  const [mobile, setMobile] = useState("");
+
+  const onSubmit = () => {
+    router.push({
+      pathname: "/(auth)/confirmation",
+      params: { mobile },
+    });
+  };
   return (
     <>
       <Heading level={1} style={styles.title}>
@@ -11,8 +21,8 @@ function Login() {
       </Heading>
 
       <View style={styles.form}>
-        <Input keyboardType="number-pad" />
-        <Button>ورود یا ثبت نام</Button>
+        <Input keyboardType="number-pad" onChangeText={setMobile} />
+        <Button onPress={onSubmit}>ورود یا ثبت نام</Button>
       </View>
     </>
   );

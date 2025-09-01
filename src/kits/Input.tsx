@@ -1,3 +1,4 @@
+import { Colors } from "@/utils/Colors";
 import { StyleSheet, TextInput, TextInputProps } from "react-native";
 
 export function Input(props: TextInputProps) {
@@ -7,7 +8,8 @@ export function Input(props: TextInputProps) {
 const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
-    borderColor: "gray",
+    backgroundColor: Colors.secondary.main,
+    borderColor: Colors.border.primary,
     padding: 10,
     borderRadius: 10,
     minWidth: 328,
