@@ -21,7 +21,11 @@ function Login() {
       </Heading>
 
       <View style={styles.form}>
-        <Input keyboardType="number-pad" onChangeText={setMobile} />
+        <Input
+          label="شماره موبایل"
+          keyboardType="number-pad"
+          onChangeText={setMobile}
+        />
         <Button onPress={onSubmit}>ورود یا ثبت نام</Button>
       </View>
     </>

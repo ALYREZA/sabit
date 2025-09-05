@@ -1,3 +1,4 @@
+import { Colors } from "@/utils/Colors";
 import { ReactNode } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
@@ -38,6 +39,7 @@ export function Background({
       <Box
         px="5"
         gap="10"
+        backgroundColor={Colors.secondary.main}
         style={{ justifyContent, alignItems, flex: 1, height: "100%" }}
       >
         {children}
