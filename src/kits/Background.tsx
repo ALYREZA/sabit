@@ -1,4 +1,4 @@
-import { Colors } from "@/utils/Colors";
+import { useColor } from "@/hooks";
 import { ReactNode } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
@@ -13,6 +13,7 @@ type FlexAlignType =
 interface BackgroundProps {
   children: ReactNode;
   alignItems?: FlexAlignType | undefined;
+  paddingTop?: number;
   justifyContent?:
     | "center"
     | "flex-start"
@@ -28,8 +29,10 @@ export function Background({
   children,
   alignItems,
   justifyContent,
+  paddingTop,
   enabledKeyboardAwareScrollView = false,
 }: BackgroundProps) {
+  const backgroundColor = useColor("background");
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{ flex: 1 }}
@@ -37,10 +40,15 @@ export function Background({
       ScrollViewComponent={ScrollView}
     >
       <Box
-        px="5"
         gap="10"
-        backgroundColor={Colors.secondary.main}
-        style={{ justifyContent, alignItems, flex: 1, height: "100%" }}
+        backgroundColor={backgroundColor}
+        style={{
+          justifyContent,
+          alignItems,
+          flex: 1,
+          height: "100%",
+          paddingTop,
+        }}
       >
         {children}
       </Box>

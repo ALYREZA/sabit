@@ -1,25 +1,35 @@
+import { useRegister } from "@/hooks/requests/mutations/auth";
 import { Button } from "@/kits/Button";
 import { Input } from "@/kits/Input";
-import { Heading } from "@/kits/typography";
-import { router } from "expo-router";
+import { Heading, Paragraph } from "@/kits/typography";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 function Login() {
   const [mobile, setMobile] = useState("");
-
+  const { mutate, error, isPending } = useRegister();
   const onSubmit = () => {
-    router.push({
-      pathname: "/(auth)/confirmation",
-      params: { mobile },
-    });
+    mutate(
+      { username: mobile },
+      {
+        onSuccess(data, variables, context) {
+          console.log("====================================");
+          console.log({ data, variables, context });
+          console.log("====================================");
+        },
+      },
+    );
   };
+
+  console.log("====================================");
+  console.log({ error });
+  console.log("====================================");
   return (
     <>
       <Heading level={1} style={styles.title}>
         ورود یا ثبت نام
       </Heading>
-
+      <Paragraph>{error?.error_description}</Paragraph>
       <View style={styles.form}>
         <Input
           label="شماره موبایل"

@@ -1,14 +1,16 @@
-import { ThemeProvider } from "@/hooks";
+import { ThemeProvider, useColor } from "@/hooks";
 import TypesafeI18n from "@/i18n/i18n-react";
 import { loadAllLocales } from "@/i18n/i18n-util.sync";
 import "@/polyfill";
 import Feather from "@expo/vector-icons/Feather";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { ActivityIndicator } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
+const queryClient = new QueryClient();
 
 const HeaderRight = (props: any) => {
   const { canGoBack, back } = useRouter();
@@ -25,6 +27,7 @@ const HeaderRight = (props: any) => {
 };
 
 const Layout = () => {
+  const backgroundColor = useColor("secondaryContainer");
   const [loaded] = useFonts({
     ...Feather.font,
   });
@@ -39,7 +42,7 @@ const Layout = () => {
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#F6F8FA",
+          backgroundColor,
         },
         headerTitle: "",
         headerTitleAlign: "center",
@@ -47,7 +50,9 @@ const Layout = () => {
         headerBackButtonDisplayMode: "minimal",
         headerRight: HeaderRight,
       }}
-    />
+    >
+      <Stack.Screen name="(app)" options={{ headerShown: false }} />
+    </Stack>
   );
 };
 
@@ -57,7 +62,9 @@ export default function RootLayout() {
       <KeyboardProvider>
         <ThemeProvider>
           <TypesafeI18n locale="fa">
-            <Layout />
+            <QueryClientProvider client={queryClient}>
+              <Layout />
+            </QueryClientProvider>
           </TypesafeI18n>
         </ThemeProvider>
       </KeyboardProvider>
