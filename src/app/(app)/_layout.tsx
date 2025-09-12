@@ -30,6 +30,15 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="myLibrary"
+        options={{
+          title: "کتابخانه من",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="book" color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

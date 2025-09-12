@@ -7,6 +7,7 @@ export interface ThemeColors {
   surface: string;
   surfaceVariant: string;
 
+  card: string;
   // Text colors
   text: string;
   textSecondary: string;
@@ -55,6 +56,7 @@ export const lightColors: ThemeColors = {
   textSecondary: "#5F6368",
   textTertiary: "#9AA0A6",
 
+  card: "#EFF2F5",
   primary: "#1976D2",
   primaryContainer: "#E3F2FD",
   onPrimary: "#FFFFFF",
@@ -92,6 +94,7 @@ export const darkColors: ThemeColors = {
   onPrimary: "#000000",
   onPrimaryContainer: "#E3F2FD",
 
+  card: "#1E1E1E",
   secondary: "#B0B0B0",
   secondaryContainer: "#424242",
   onSecondary: "#000000",
