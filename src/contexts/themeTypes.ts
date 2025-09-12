@@ -57,7 +57,7 @@ export const lightColors: ThemeColors = {
   textTertiary: "#9AA0A6",
 
   card: "#EFF2F5",
-  primary: "#1976D2",
+  primary: "#1C39BB",
   primaryContainer: "#E3F2FD",
   onPrimary: "#FFFFFF",
   onPrimaryContainer: "#0D47A1",

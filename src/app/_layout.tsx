@@ -49,6 +49,7 @@ const Layout = () => {
         headerShadowVisible: false,
         headerBackButtonDisplayMode: "minimal",
         headerRight: HeaderRight,
+        headerBackVisible: false,
       }}
     >
       <Stack.Screen name="(app)" options={{ headerShown: false }} />
