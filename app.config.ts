@@ -53,7 +53,18 @@ module.exports = (expoConfig: ExpoConfig) => ({
         },
       },
     ],
-    "expo-font",
+    [
+      "expo-font",
+      {
+        fonts: [
+          "./assets/fonts/IRANSansWeb(FaNum)_Black.ttf",
+          "./assets/fonts/IRANSansWeb(FaNum)_Bold.ttf",
+          "./assets/fonts/IRANSansWeb(FaNum)_Light.ttf",
+          "./assets/fonts/IRANSansWeb(FaNum)_Medium.ttf",
+          "./assets/fonts/IRANSansWeb(FaNum)_UltraLight.ttf",
+        ],
+      },
+    ],
     "expo-web-browser",
   ],
   extra: {

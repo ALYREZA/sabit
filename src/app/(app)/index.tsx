@@ -3,6 +3,7 @@ import {
   CardHorizontalItem,
 } from "@/components/CardHorizontal";
 import { CircularProgress } from "@/components/CircularProgress";
+import { useAuth } from "@/contexts/AuthContext";
 import { Background } from "@/kits/Background";
 import { Box } from "@/kits/Box";
 import { Heading, Text } from "@/kits/typography";
@@ -29,12 +30,21 @@ const categoriesData: CardHorizontalItem[] = [
   { id: "5", title: "Title 5", icon: "url5" },
 ];
 export default function Tab() {
+  const { signOut, user } = useAuth();
+
   return (
     <Background paddingTop={32}>
       <ScrollView
         nestedScrollEnabled
         contentContainerStyle={customStyles.container}
       >
+        {/* User info and sign out button */}
+        <Box px="5" mb="4">
+          <Text>Welcome, {user?.name || "User"}!</Text>
+          <Pressable onPress={signOut} style={customStyles.signOutButton}>
+            <Text style={customStyles.signOutText}>Sign Out</Text>
+          </Pressable>
+        </Box>
         <CardHorizontal
           title="تازه‌ها"
           data={myData}
@@ -123,5 +133,17 @@ const customStyles = StyleSheet.create({
   container: {
     gap: 24,
     paddingBottom: 10,
+  },
+  signOutButton: {
+    backgroundColor: "#FF3B30",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    marginTop: 8,
+    alignSelf: "flex-start",
+  },
+  signOutText: {
+    color: "white",
+    fontWeight: "600",
   },
 });
