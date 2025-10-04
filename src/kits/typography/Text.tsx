@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     color: "#11181C",
+    fontFamily: "IRANSansWeb(FaNum)-Light",
   },
 
   // Size variants
@@ -117,10 +118,10 @@ const styles = StyleSheet.create({
   size9: { fontSize: 27, lineHeight: 35 },
 
   // Weight variants
-  weightlight: { fontWeight: "300" },
-  weightregular: { fontWeight: "400" },
-  weightmedium: { fontWeight: "500" },
-  weightbold: { fontWeight: "700" },
+  weightlight: { fontFamily: "IRANSansWeb(FaNum)-Light" },
+  weightregular: { fontFamily: "IRANSansWeb(FaNum)-Light" },
+  weightmedium: { fontFamily: "IRANSansWeb(FaNum)-Medium" },
+  weightbold: { fontFamily: "IRANSansWeb(FaNum)-Bold" },
 
   // Alignment variants
   alignleft: { textAlign: "left" },
