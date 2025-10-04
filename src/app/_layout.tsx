@@ -4,7 +4,7 @@ import { ThemeProvider, useColor } from "@/hooks";
 import TypesafeI18n from "@/i18n/i18n-react";
 import { loadAllLocales } from "@/i18n/i18n-util.sync";
 import "@/polyfill";
-import { fonts } from "@/utils/fonts";
+import { fonts, fontsAlternative } from "@/utils/fonts";
 import Feather from "@expo/vector-icons/Feather";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
@@ -53,20 +53,35 @@ const RootNavigator = () => {
       </Stack.Protected>
 
       <Stack.Protected guard={!user}>
-        <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       </Stack.Protected>
+
+      <Stack.Screen name="(shared)" options={{ headerShown: false }} />
     </Stack>
   );
 };
 
 const Layout = () => {
-  const [loaded] = useFonts({
+  const [loaded, error] = useFonts({
     ...Feather.font,
     ...fonts,
+    ...fontsAlternative,
   });
+
   useEffect(() => {
     loadAllLocales();
   }, []);
+
+  // Debug: Log font loading status
+  if (__DEV__) {
+    console.log("Fonts loaded:", loaded);
+    console.log("Font loading error:", error);
+    console.log("Available fonts:", Object.keys(fonts));
+  }
+
+  if (error) {
+    console.error("Font loading error:", error);
+  }
 
   if (!loaded) {
     return <ActivityIndicator size="large" color="green" />;

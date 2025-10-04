@@ -86,6 +86,15 @@ export function Text({
     style,
   ].filter(Boolean) as TextStyle[];
 
+  // Debug: Log the final style to see what fontFamily is being applied
+  if (__DEV__) {
+    console.log(
+      "Text component fontFamily:",
+      textStyle.find((s) => s && typeof s === "object" && "fontFamily" in s)
+        ?.fontFamily,
+    );
+  }
+
   return (
     <RNText
       {...props}
@@ -103,7 +112,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     color: "#11181C",
-    fontFamily: "IRANSansWeb(FaNum)-Light",
+    fontFamily: "IRANSansWeb-FaNum-Light",
   },
 
   // Size variants
@@ -118,10 +127,10 @@ const styles = StyleSheet.create({
   size9: { fontSize: 27, lineHeight: 35 },
 
   // Weight variants
-  weightlight: { fontFamily: "IRANSansWeb(FaNum)-Light" },
-  weightregular: { fontFamily: "IRANSansWeb(FaNum)-Light" },
-  weightmedium: { fontFamily: "IRANSansWeb(FaNum)-Medium" },
-  weightbold: { fontFamily: "IRANSansWeb(FaNum)-Bold" },
+  weightlight: { fontFamily: "IRANSansWeb-FaNum-UltraLight" },
+  weightregular: { fontFamily: "IRANSansWeb-FaNum-Light" },
+  weightmedium: { fontFamily: "IRANSansWeb-FaNum-Medium" },
+  weightbold: { fontFamily: "IRANSansWeb-FaNum-Bold" },
 
   // Alignment variants
   alignleft: { textAlign: "left" },
