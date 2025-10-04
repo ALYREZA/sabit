@@ -53,7 +53,14 @@ module.exports = (expoConfig: ExpoConfig) => ({
         },
       },
     ],
+    "expo-font",
+    "expo-web-browser",
   ],
+  extra: {
+    eas: {
+      projectId: "c2cd782a-55a5-461a-8980-2a2abbe2212c",
+    },
+  },
   experiments: {
     typedRoutes: true,
   },
