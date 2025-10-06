@@ -18,7 +18,7 @@ function Login() {
         },
         onError(error, variables, context) {
           if (error?.error === "user_exists") {
-            router.push("/password");
+            router.push({ pathname: "/password", params: { mobile } });
           }
         },
       },

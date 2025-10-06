@@ -18,7 +18,6 @@ export const authApi = ky.create({
   hooks: {
     beforeRequest: [
       async (request) => {
-        request.headers.set("Content-Type", "application/json");
         request.headers.set("Authorization", authorization);
       },
     ],

@@ -12,10 +12,10 @@ export type RegisterRequestResponse = {
 };
 
 export type LoginRequestProps = {
-  username: string;
   password: string;
-  grant_type: "refresh_token" | "password";
-  scope: "openid";
+  username?: string;
+  grant_type?: "refresh_token" | "password";
+  scope?: "openid";
 };
 
 export type LoginRequestResponse = {
