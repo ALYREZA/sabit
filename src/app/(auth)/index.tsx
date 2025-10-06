@@ -2,26 +2,24 @@ import { useRegister } from "@/hooks/requests/mutations/auth";
 import { Button } from "@/kits/Button";
 import { Input } from "@/kits/Input";
 import { Heading } from "@/kits/typography";
+import { router } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 function Login() {
   const [mobile, setMobile] = useState("");
-  const { mutate } = useRegister();
+  const { mutate, isPending } = useRegister();
   const onSubmit = () => {
     mutate(
       { username: mobile },
       {
         onSuccess(data, variables, context) {
-          console.log("====================================");
-          console.log({ data, variables, context });
-          console.log("====================================");
+          router.push({ pathname: "/confirmation", params: { mobile } });
         },
         onError(error, variables, context) {
-          console.log("====================================");
-          console.log(error?.error_description);
-          console.log("====================================");
-          //router.push("/password");
+          if (error?.error === "user_exists") {
+            router.push("/password");
+          }
         },
       },
     );
@@ -38,7 +36,9 @@ function Login() {
           keyboardType="number-pad"
           onChangeText={setMobile}
         />
-        <Button onPress={onSubmit}>ورود یا ثبت نام</Button>
+        <Button onPress={onSubmit} loading={isPending}>
+          ورود یا ثبت نام
+        </Button>
       </View>
     </>
   );

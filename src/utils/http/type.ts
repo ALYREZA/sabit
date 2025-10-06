@@ -1,6 +1,6 @@
 export type RegisterRequestProps = {
   username: string;
-  otp?: number;
+  otp?: string;
   login_by_otp_if_user_exists?: boolean;
 };
 

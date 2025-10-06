@@ -1,4 +1,4 @@
-import ky from "ky";
+import ky, { HTTPError } from "ky";
 
 // Create configured ky instance
 const rawPrefixUrl = process.env.EXPO_PUBLIC_API_URL as string;
@@ -18,12 +18,14 @@ export const authApi = ky.create({
   hooks: {
     beforeRequest: [
       async (request) => {
-        console.log("beforeRequest", request.url);
-        console.log("====================================");
-        console.log({ authorization });
-        console.log("====================================");
         request.headers.set("Content-Type", "application/json");
         request.headers.set("Authorization", authorization);
+      },
+    ],
+    beforeError: [
+      async (error) => {
+        const response = await error.response.json();
+        return response as HTTPError;
       },
     ],
   },

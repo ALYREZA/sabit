@@ -7,9 +7,19 @@ import {
   RegisterRequestResponse,
 } from "./type";
 
-export const registerRequest = async (searchParams: RegisterRequestProps) => {
+export const registerRequest = async ({
+  username,
+  otp = "",
+  login_by_otp_if_user_exists = false,
+}: RegisterRequestProps) => {
   return await authApi
-    .post(ENDPOINTS.REGISTER.REGISTER, { searchParams })
+    .post(ENDPOINTS.REGISTER.REGISTER, {
+      json: {
+        username,
+        otp,
+        login_by_otp_if_user_exists,
+      },
+    })
     .json<RegisterRequestResponse>();
 };
 

@@ -1,6 +1,7 @@
+import { RenderIf } from "@/components/RenderIf";
 import { Text } from "@/kits/typography/Text";
 import { ButtonVariant, Colors, ColorTheme } from "@/utils/Colors";
-import { View, ViewStyle } from "react-native";
+import { ActivityIndicator, View, ViewStyle } from "react-native";
 import {
   RectButtonProps,
   RectButton as RNButton,
@@ -13,6 +14,7 @@ export interface ButtonProps extends Omit<RectButtonProps, "style"> {
   disabled?: boolean;
   style?: ViewStyle;
   size?: "small" | "medium" | "large";
+  loading?: boolean;
 }
 
 export function Button({
@@ -22,6 +24,7 @@ export function Button({
   disabled = false,
   style,
   size = "medium",
+  loading = false,
   ...props
 }: ButtonProps) {
   const buttonStyles = getButtonStyles(theme, variant, disabled, size);
@@ -34,7 +37,12 @@ export function Button({
       enabled={!disabled}
     >
       <View accessible accessibilityRole="button">
-        <Text color={textColor}>{children}</Text>
+        <RenderIf
+          condition={!loading}
+          fallback={<ActivityIndicator size="small" color={textColor} />}
+        >
+          <Text color={textColor}>{children}</Text>
+        </RenderIf>
       </View>
     </RNButton>
   );
