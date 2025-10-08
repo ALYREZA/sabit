@@ -9,16 +9,19 @@ export interface User {
 }
 
 export interface AuthContextType {
-  signIn: (user: User, token: string) => void;
+  signIn: (token: string, refreshToken: string) => void;
   signOut: () => void;
+  setUser: (userData: User) => void;
   user?: User | null;
   token?: string | null;
   isLoading: boolean;
+  refreshToken?: string | null;
 }
 
 const AuthContext = createContext<AuthContextType>({
   signIn: () => null,
   signOut: () => null,
+  setUser: () => null,
   user: null,
   token: null,
   isLoading: false,
@@ -35,17 +38,23 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [[isLoading, token], setToken] = useStorageState("auth_token");
-  const [[, user], setUser] = useStorageState("user_data");
-
-  const signIn = (userData: User, authToken: string) => {
+  const [[isLoadingToken, token], setToken] = useStorageState("auth_token");
+  const [[isLoadingRefreshToken, refreshToken], setRefreshToken] =
+    useStorageState("refresh_token");
+  const [[, user], setUserData] = useStorageState("user_data");
+  const isLoading = isLoadingToken || isLoadingRefreshToken;
+  const signIn = (authToken: string, refreshToken: string) => {
     setToken(authToken);
-    setUser(JSON.stringify(userData));
+    setRefreshToken(refreshToken);
   };
 
+  const setUser = (userData: User) => {
+    setUserData(JSON.stringify(userData));
+  };
   const signOut = () => {
     setToken(null);
-    setUser(null);
+    setRefreshToken(null);
+    setUserData(null);
   };
 
   const parsedUser = user ? JSON.parse(user) : null;
@@ -55,9 +64,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
       value={{
         signIn,
         signOut,
+        setUser,
         user: parsedUser,
         token,
         isLoading,
+        refreshToken,
       }}
     >
       {children}

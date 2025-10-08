@@ -31,7 +31,7 @@ const HeaderRight = (props: any) => {
 };
 
 const RootNavigator = () => {
-  const { user } = useAuth();
+  const { token } = useAuth();
   const backgroundColor = useColor("secondaryContainer");
 
   return (
@@ -48,11 +48,11 @@ const RootNavigator = () => {
         headerBackVisible: false,
       }}
     >
-      <Stack.Protected guard={!!user}>
+      <Stack.Protected guard={!!token}>
         <Stack.Screen name="(app)" options={{ headerShown: false }} />
       </Stack.Protected>
 
-      <Stack.Protected guard={!user}>
+      <Stack.Protected guard={!token}>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       </Stack.Protected>
 

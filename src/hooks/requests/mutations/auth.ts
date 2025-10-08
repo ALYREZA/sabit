@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts/AuthContext";
 import { loginRequest, registerRequest } from "@/utils/http/auth";
 import { LoginRequestProps } from "@/utils/http/type";
 import { useMutation } from "@tanstack/react-query";
@@ -9,6 +10,7 @@ export function useRegister() {
   });
 }
 export function useLogin({ username }: { username: string }) {
+  const { signIn } = useAuth();
   return useMutation({
     mutationFn: (data: LoginRequestProps) =>
       loginRequest({
@@ -18,5 +20,8 @@ export function useLogin({ username }: { username: string }) {
         ...data,
       }),
     mutationKey: ["authentication", "login"],
+    onSuccess: (data) => {
+      signIn(data.access_token, data.refresh_token);
+    },
   });
 }
