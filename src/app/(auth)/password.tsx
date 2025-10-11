@@ -1,6 +1,6 @@
 import { useLogin } from "@/hooks/requests/mutations/auth";
 import { Button } from "@/kits/Button";
-import { Input } from "@/kits/Input";
+import { PasswordInput } from "@/kits/PasswordInput";
 import { Heading, Paragraph } from "@/kits/typography";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
@@ -15,10 +15,10 @@ function Password() {
     <>
       <Heading level={1}> رمز عبور </Heading>
       {error && <Paragraph>{error.error_description}</Paragraph>}
-      <Input
+      <PasswordInput
         keyboardType="twitter"
-        secureTextEntry
         onChangeText={setPassword}
+        label="رمز عبور"
       />
       <Button onPress={() => mutateAsync({ password })} loading={isPending}>
         تایید

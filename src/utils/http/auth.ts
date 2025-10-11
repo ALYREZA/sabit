@@ -15,7 +15,7 @@ export const registerRequest = async ({
   return await authApi
     .post(ENDPOINTS.REGISTER.REGISTER, {
       json: {
-        username,
+        username: username.slice(1),
         otp,
         login_by_otp_if_user_exists,
       },

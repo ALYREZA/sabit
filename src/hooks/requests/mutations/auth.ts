@@ -14,7 +14,7 @@ export function useLogin({ username }: { username: string }) {
   return useMutation({
     mutationFn: (data: LoginRequestProps) =>
       loginRequest({
-        username,
+        username: username.slice(1),
         grant_type: "password",
         scope: "openid",
         ...data,

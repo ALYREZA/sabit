@@ -2,7 +2,7 @@ import { useColor } from "@/hooks";
 import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { Text } from "./typography";
-interface InputProps extends TextInputProps {
+export interface InputProps extends TextInputProps {
   label?: string;
 }
 const AnimatedText = Animated.createAnimatedComponent(Text);
