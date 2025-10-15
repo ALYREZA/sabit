@@ -1,9 +1,7 @@
-import {
-  CardHorizontal,
-  CardHorizontalItem,
-} from "@/components/CardHorizontal";
+import { CardHorizontal } from "@/components/CardHorizontal";
 import { CircularProgress } from "@/components/CircularProgress";
 import { useAuth } from "@/contexts/AuthContext";
+import useSearch from "@/hooks/requests/queries/search";
 import { Background } from "@/kits/Background";
 import { Box } from "@/kits/Box";
 import { Heading, Text } from "@/kits/typography";
@@ -11,18 +9,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { StyleSheet, View } from "react-native";
 import { Pressable, ScrollView } from "react-native-gesture-handler";
 
-const myData: CardHorizontalItem[] = [
-  { id: "1", title: "Title 1", subtitle: "Subtitle 1", image: "url1" },
-  { id: "2", title: "Title 2", subtitle: "Subtitle 2", image: "url2" },
-  { id: "3", title: "Title 3", subtitle: "Subtitle 3", image: "url3" },
-  { id: "4", title: "Title 4", subtitle: "Subtitle 4", image: "url4" },
-  { id: "5", title: "Title 5", subtitle: "Subtitle 5", image: "url5" },
-  { id: "6", title: "Title 6", subtitle: "Subtitle 6", image: "url6" },
-  { id: "7", title: "Title 7", subtitle: "Subtitle 7", image: "url7" },
-  { id: "8", title: "Title 8", subtitle: "Subtitle 8", image: "url8" },
-  { id: "9", title: "Title 9", subtitle: "Subtitle 9", image: "url9" },
-];
-const categoriesData: CardHorizontalItem[] = [
+const categoriesData: any[] = [
   { id: "1", title: "Title 1", icon: "url1" },
   { id: "2", title: "Title 2", icon: "url2" },
   { id: "3", title: "Title 3", icon: "url3" },
@@ -31,6 +18,18 @@ const categoriesData: CardHorizontalItem[] = [
 ];
 export default function Tab() {
   const { signOut, user } = useAuth();
+  const { data: newestList, isLoading: isLoadingNewestList } = useSearch({
+    t: "l",
+    newResource: true,
+    digitalResource: true,
+    resourceInformation: false,
+  });
+  const { data: newestInWeek, isLoading: isLoadingNewestInWeek } = useSearch({
+    t: "w",
+    sortkey: "store",
+    digitalResource: true,
+    resourceInformation: false,
+  });
 
   return (
     <Background paddingTop={32}>
@@ -47,15 +46,8 @@ export default function Tab() {
         </Box>
         <CardHorizontal
           title="تازه‌ها"
-          data={myData}
+          data={newestList?.biblioList || []}
           hasMore
-          renderItem={(item, index) => (
-            <Pressable key={item.id} style={customStyles.itemBox}>
-              <View style={customStyles.img} />
-              <Text>{item.title}</Text>
-              <Text>{item.subtitle}</Text>
-            </Pressable>
-          )}
         />
         <CardHorizontal
           title="انواع منابع"
@@ -71,15 +63,8 @@ export default function Tab() {
         />
         <CardHorizontal
           title="پیشنهاد هفته"
-          data={myData}
+          data={newestInWeek?.biblioList || []}
           hasMore
-          renderItem={(item, index) => (
-            <Pressable key={item.id} style={customStyles.itemBox}>
-              <View style={customStyles.img} />
-              <Text>{item.title}</Text>
-              <Text>{item.subtitle}</Text>
-            </Pressable>
-          )}
         />
         <CardHorizontal
           title="دسته‌بندی موضوعی"
@@ -117,7 +102,6 @@ const customStyles = StyleSheet.create({
   img: {
     height: 112,
     width: 78,
-    backgroundColor: "red",
   },
   imgCategory: {
     gap: 8,

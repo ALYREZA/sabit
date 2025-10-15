@@ -32,3 +32,39 @@ export type LoginRequestResponse = {
   error_description: string;
   error_uri: string;
 };
+
+export interface SearchRequestProps {
+  t: string;
+  newResource?: boolean;
+  digitalResource?: boolean;
+  resourceInformation?: boolean;
+  sortkey?: string;
+}
+export interface SearchRequestResponse {
+  totalResult: number;
+  biblioList: BiblioList[];
+}
+
+export interface BiblioList {
+  id: number;
+  docNumber: string;
+  title: string;
+  materialType: string;
+  mainEntry: string;
+  LCClass: any;
+  DEClass: any;
+  NLMClass: any;
+  publisherName: string;
+  publishDate: string;
+  ISXNfixed: any;
+  databankId: number;
+  gmdText: any;
+  hasHolding: boolean;
+  hasAttachment: boolean;
+  mainSubject: string;
+  resourceInformation: any;
+  imgAddress: string;
+  unitId: string;
+  unitName: string;
+  rate: any;
+}

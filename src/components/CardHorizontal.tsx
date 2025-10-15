@@ -1,25 +1,18 @@
 import { Box } from "@/kits/Box";
 import { Heading, Text } from "@/kits/typography";
+import { BiblioList } from "@/utils/http/type";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Image } from "expo-image";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { FlatList, Pressable } from "react-native-gesture-handler";
 import { RenderIf } from "./RenderIf";
-
-export interface CardHorizontalItem {
-  id: string;
-  image?: string;
-  icon?: string;
-  title: string;
-  subtitle?: string;
-}
-
 interface CardHorizontalProps {
   title: string;
   hasMore?: boolean;
   onMorePress?: () => void;
-  data: CardHorizontalItem[];
-  renderItem?: (item: CardHorizontalItem, index: number) => React.ReactElement;
+  data: BiblioList[];
+  renderItem?: (item: BiblioList, index: number) => React.ReactElement;
 }
 
 export function CardHorizontal({
@@ -55,13 +48,17 @@ export function CardHorizontal({
           }
           return (
             <Pressable style={styles.itemBox}>
-              <View style={styles.img} />
-              <Heading level={4}>{item.title}</Heading>
-              <Heading level={5}>{item.subtitle}</Heading>
+              <Image style={styles.img} source={{ uri: item.imgAddress }} />
+              <Text numberOfLines={1} style={styles.title}>
+                {item.title}
+              </Text>
+              <Text numberOfLines={1} style={styles.subtitle}>
+                {item.mainEntry}
+              </Text>
             </Pressable>
           );
         }}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
       />
     </Box>
   );
@@ -71,7 +68,12 @@ const styles = StyleSheet.create({
   img: {
     height: 112,
     width: 78,
-    backgroundColor: "red",
+  },
+  title: {
+    fontWeight: "bold",
+  },
+  subtitle: {
+    fontWeight: "normal",
   },
   header: {
     alignContent: "center",
