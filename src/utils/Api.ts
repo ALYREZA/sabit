@@ -1,3 +1,4 @@
+import { events } from "@/utils/events";
 import ky, { HTTPError } from "ky";
 
 // Create configured ky instance
@@ -10,6 +11,12 @@ export const authorization = "Basic ".concat(
       process.env.EXPO_PUBLIC_CLIENT_SECRET,
   ),
 );
+
+// Keep an in-memory token updated via events from AuthContext
+let currentToken: string | null = null;
+events.on("auth:token", (token) => {
+  currentToken = token ?? null;
+});
 
 export const authApi = ky.create({
   prefixUrl: rawPrefixUrl + authServerUrl,
@@ -25,6 +32,21 @@ export const authApi = ky.create({
       async (error) => {
         const response = await error.response.json();
         return response as HTTPError;
+      },
+    ],
+  },
+});
+
+export const api = ky.create({
+  prefixUrl: rawPrefixUrl,
+  timeout: 30000,
+  retry: 3,
+  hooks: {
+    beforeRequest: [
+      async (request) => {
+        if (currentToken) {
+          request.headers.set("Authorization", `Bearer ${currentToken}`);
+        }
       },
     ],
   },

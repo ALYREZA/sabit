@@ -1,4 +1,5 @@
-import { createContext, use, type PropsWithChildren } from "react";
+import { events } from "@/utils/events";
+import { createContext, use, useEffect, type PropsWithChildren } from "react";
 import { useStorageState } from "./useStorageState";
 
 export interface User {
@@ -43,6 +44,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
     useStorageState("refresh_token");
   const [[, user], setUserData] = useStorageState("user_data");
   const isLoading = isLoadingToken || isLoadingRefreshToken;
+
+  // Broadcast token changes for API layer subscribers
+  useEffect(() => {
+    events.emit("auth:token", token ?? null);
+  }, [token]);
+
   const signIn = (authToken: string, refreshToken: string) => {
     setToken(authToken);
     setRefreshToken(refreshToken);
