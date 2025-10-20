@@ -1,5 +1,6 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Tabs } from "expo-router";
+import { Link, Tabs } from "expo-router";
+import { Pressable } from "react-native-gesture-handler";
 
 export default function TabLayout() {
   return (
@@ -26,7 +27,15 @@ export default function TabLayout() {
             />
           ),
           headerLeft: (props) => (
-            <FontAwesome size={28} name="user-circle" color={props.tintColor} />
+            <Link href="/(shared)/profile" asChild>
+              <Pressable>
+                <FontAwesome
+                  size={28}
+                  name="user-circle"
+                  color={props.tintColor}
+                />
+              </Pressable>
+            </Link>
           ),
         }}
       />

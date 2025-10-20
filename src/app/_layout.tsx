@@ -43,7 +43,7 @@ const RootNavigator = () => {
         headerTitle: "",
         headerTitleAlign: "center",
         headerShadowVisible: false,
-        headerBackButtonDisplayMode: "minimal",
+        headerBackButtonMenuEnabled: false,
         headerRight: HeaderRight,
         headerBackVisible: false,
       }}
@@ -56,7 +56,14 @@ const RootNavigator = () => {
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       </Stack.Protected>
 
-      <Stack.Screen name="(shared)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="(shared)"
+        options={{
+          headerShown: false,
+          headerBackButtonMenuEnabled: false,
+          headerBackVisible: false,
+        }}
+      />
     </Stack>
   );
 };
