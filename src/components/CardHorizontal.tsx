@@ -27,15 +27,15 @@ export function CardHorizontal({
       <Box
         px="5"
         flexDirection={"row"}
-        style={[styles.header, !hasMore && { alignSelf: "flex-end" }]}
+        style={[styles.header, !hasMore && { alignSelf: "flex-start" }]}
       >
+        <Heading level={2}>{title}</Heading>
         <RenderIf condition={hasMore}>
           <Pressable style={styles.more} onPress={onMorePress}>
-            <FontAwesome name="chevron-left" size={10} />
             <Text>بیشتر</Text>
+            <FontAwesome name="chevron-left" size={10} />
           </Pressable>
         </RenderIf>
-        <Heading level={2}>{title}</Heading>
       </Box>
       <FlatList
         horizontal
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   itemBox: {
-    alignItems: "flex-end",
+    alignItems: "flex-start",
   },
   more: {
     alignItems: "center",

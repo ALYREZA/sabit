@@ -57,26 +57,26 @@ export function Card({
       >
         <View style={styles.cardContent}>
           <View style={styles.leftSection}>
-            {isAccordion && (
-              <View style={styles.chevronContainer}>
-                <Text
-                  size={2}
-                  color="gray"
-                  style={[styles.chevron, isExpanded && styles.chevronExpanded]}
-                >
-                  ▼
-                </Text>
-              </View>
+            {rightIcon && (
+              <View style={styles.rightIconContainer}>{rightIcon}</View>
             )}
             <View style={styles.titleSection}>
+              {icon && <View style={styles.iconContainer}>{icon}</View>}
               <Text size={3} weight="medium" color="gray" style={styles.title}>
                 {title}
               </Text>
-              {icon && <View style={styles.iconContainer}>{icon}</View>}
             </View>
           </View>
-          {rightIcon && (
-            <View style={styles.rightIconContainer}>{rightIcon}</View>
+          {isAccordion && (
+            <View style={styles.chevronContainer}>
+              <Text
+                size={2}
+                color="gray"
+                style={[styles.chevron, isExpanded && styles.chevronExpanded]}
+              >
+                ▼
+              </Text>
+            </View>
           )}
         </View>
       </TouchableOpacity>
@@ -92,36 +92,32 @@ export function Card({
   );
 }
 
-// Security Card Component
-interface SecurityCardProps {
+// Expandable Card Component
+interface ExpandableCardProps {
+  title: string;
+  icon?: React.ReactNode;
   onPress?: () => void;
   isAccordion?: boolean;
   defaultExpanded?: boolean;
   children?: React.ReactNode;
 }
 
-export function SecurityCard({
+export function ExpandableCard({
+  title,
+  icon,
   onPress,
   isAccordion = false,
   defaultExpanded = false,
   children,
-}: SecurityCardProps) {
-  const securityIcon = (
-    <View style={styles.securityIcon}>
-      <Text size={2} color="white">
-        i
-      </Text>
-    </View>
-  );
-
+}: ExpandableCardProps) {
   return (
     <Card
-      title="امنیت و محرمانگی"
-      icon={securityIcon}
+      title={title}
+      icon={icon}
       onPress={onPress}
       isAccordion={isAccordion}
       defaultExpanded={defaultExpanded}
-      style={styles.securityCard}
+      style={styles.expandableCard}
     >
       {children}
     </Card>
@@ -143,7 +139,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2,
   },
-  securityCard: {
+  expandableCard: {
     marginBottom: 16,
   },
   cardHeader: {

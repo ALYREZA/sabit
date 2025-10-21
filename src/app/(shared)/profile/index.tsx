@@ -1,4 +1,4 @@
-import { SecurityCard } from "@/components/Card";
+import { ExpandableCard } from "@/components/Card";
 import { Background } from "@/kits/Background";
 import { Box } from "@/kits/Box";
 import { Button } from "@/kits/Button";
@@ -215,6 +215,11 @@ function Profile() {
         <Box style={styles.authNoticeSection}>
           <View style={styles.authNoticeCard}>
             <View style={styles.authNoticeContent}>
+              <View style={styles.infoIcon}>
+                <Text size={2} color="orange">
+                  i
+                </Text>
+              </View>
               <Text size={3} color="gray" style={styles.authNoticeText}>
                 برای استفاده از همه امکانات اپلیکیشن،{" "}
                 <Text size={3} color="orange" style={styles.authLink}>
@@ -222,17 +227,13 @@ function Profile() {
                 </Text>{" "}
                 نمایید.
               </Text>
-              <View style={styles.infoIcon}>
-                <Text size={2} color="orange">
-                  i
-                </Text>
-              </View>
             </View>
           </View>
         </Box>
 
         {/* Security Card */}
-        <SecurityCard
+        <ExpandableCard
+          title="امنیت و محرمانگی"
           isAccordion={true}
           defaultExpanded={false}
           onPress={() => console.log("Security card pressed")}
@@ -259,7 +260,7 @@ function Profile() {
               </TouchableOpacity>
             </View>
           </View>
-        </SecurityCard>
+        </ExpandableCard>
       </ScrollView>
     </Background>
   );
@@ -441,6 +442,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   authNoticeText: {
+    textAlign: "right",
     flex: 1,
     lineHeight: 24,
   },
