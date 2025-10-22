@@ -1,8 +1,10 @@
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { ExpandableCard } from "@/components/Card";
+import { LogoutButton } from "@/components/LogoutButton";
 import { Background } from "@/kits/Background";
 import { Box } from "@/kits/Box";
-import { Button } from "@/kits/Button";
 import { Text } from "@/kits/typography";
+import Icon from "@expo/vector-icons/Feather";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import {
@@ -29,45 +31,33 @@ function Profile() {
     expirationDate: "",
   });
 
-  const handleMembershipRequest = () => {
-    console.log("Membership request pressed");
-  };
-
   const handleProfileImageChange = () => {
     console.log("Change profile image");
   };
 
+  const handleLogout = () => {
+    console.log("Logout pressed");
+  };
+
+  const handleMenuPress = (menuItem: string) => {
+    console.log(`${menuItem} pressed`);
+  };
+
+  const handleBreadcrumbPress = (index: number) => {
+    console.log(`Breadcrumb item ${index} pressed`);
+  };
+
   return (
     <Background paddingTop={32}>
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        {/* Header with QR Code and Icon */}
-        <Box style={styles.header}>
-          <View style={styles.headerLeft}>
-            <View style={styles.qrCode}>
-              <Text size={1} color="gray">
-                QR
-              </Text>
-            </View>
-          </View>
-          <View style={styles.headerRight}>
-            <View style={styles.buildingIcon}>
-              <Text size={2} color="gray">
-                🏛️
-              </Text>
-            </View>
-          </View>
-        </Box>
+      {/* Breadcrumb Header */}
+      <Breadcrumb
+        items={["خانه", "پروفایل"]}
+        onItemPress={handleBreadcrumbPress}
+      />
 
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         {/* App Title */}
         <Box style={styles.appTitleSection}>
-          <Text
-            size={1}
-            color="gray"
-            align="center"
-            style={styles.membershipLabel}
-          >
-            کارت عضویت
-          </Text>
           <Text size={4} weight="medium" color="gray" align="center">
             سوپر اپلیکیشن سابیت
           </Text>
@@ -87,9 +77,7 @@ function Profile() {
                 />
               ) : (
                 <View style={styles.profileImagePlaceholder}>
-                  <Text size={6} color="white">
-                    👤
-                  </Text>
+                  <Icon name="user" size={40} color="white" />
                 </View>
               )}
             </LinearGradient>
@@ -98,9 +86,7 @@ function Profile() {
               onPress={handleProfileImageChange}
             >
               <View style={styles.cameraIcon}>
-                <Text size={2} color="gray">
-                  📷
-                </Text>
+                <Icon name="camera" size={16} color="#6B7280" />
               </View>
             </TouchableOpacity>
           </View>
@@ -117,54 +103,10 @@ function Profile() {
           >
             {userData.name}
           </Text>
-          <TouchableOpacity>
-            <Text size={2} color="blue" align="center" style={styles.userEmail}>
-              {userData.email}
-            </Text>
-          </TouchableOpacity>
         </Box>
 
         {/* Separator */}
         <View style={styles.separator} />
-
-        {/* Membership Status */}
-        <Box style={styles.membershipSection}>
-          <Box style={styles.membershipStatus}>
-            <Text size={2} color="gray" align="right">
-              {userData.isMember ? "عضو هستید" : "عضو نیستید"}
-            </Text>
-            {!userData.isMember && (
-              <Box style={styles.expirationRow}>
-                <Text size={1} color="gray" align="right">
-                  تاریخ پایان اعتبار
-                </Text>
-                <View style={styles.clockIcon}>
-                  <Text size={1} color="gray">
-                    🕐
-                  </Text>
-                </View>
-              </Box>
-            )}
-          </Box>
-        </Box>
-
-        {/* Action Button */}
-        <Box style={styles.actionSection}>
-          <Button
-            variant="outlined"
-            style={styles.membershipButton}
-            onPress={handleMembershipRequest}
-          >
-            <View style={styles.buttonContent}>
-              <Text size={2} color="blue">
-                +
-              </Text>
-              <Text size={2} color="blue" style={styles.buttonText}>
-                درخواست عضویت
-              </Text>
-            </View>
-          </Button>
-        </Box>
 
         {/* Statistics Cards */}
         <Box style={styles.statsSection}>
@@ -216,9 +158,7 @@ function Profile() {
           <View style={styles.authNoticeCard}>
             <View style={styles.authNoticeContent}>
               <View style={styles.infoIcon}>
-                <Text size={2} color="orange">
-                  i
-                </Text>
+                <Icon name="info" size={12} color="#FF8A65" />
               </View>
               <Text size={3} color="gray" style={styles.authNoticeText}>
                 برای استفاده از همه امکانات اپلیکیشن،{" "}
@@ -231,12 +171,75 @@ function Profile() {
           </View>
         </Box>
 
-        {/* Security Card */}
+        {/* User-Specific Actions */}
+        <ExpandableCard
+          title="علایق من"
+          icon={<Icon name="heart" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("علایق من")}
+        />
+
+        <ExpandableCard
+          title="داشبورد من"
+          icon={<Icon name="bar-chart-2" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("داشبورد من")}
+        />
+
+        <ExpandableCard
+          title="مراکز من"
+          icon={<Icon name="home" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("مراکز من")}
+        />
+
+        <ExpandableCard
+          title="کانال ها"
+          icon={<Icon name="users" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("کانال ها")}
+        />
+
+        <ExpandableCard
+          title="تمدید عضویت"
+          icon={<Icon name="calendar" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("تمدید عضویت")}
+        />
+
+        <ExpandableCard
+          title="مراکز پیشفرض"
+          icon={<Icon name="star" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("مراکز پیشفرض")}
+        />
+
+        {/* Wallet/Financial Section */}
+        <ExpandableCard
+          title="کیف پول"
+          icon={<Icon name="credit-card" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("کیف پول")}
+        />
+
+        <ExpandableCard
+          title="تاریخچه تراکنش بانکی"
+          icon={<Icon name="clock" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("تاریخچه تراکنش بانکی")}
+        />
+
+        <ExpandableCard
+          title="سفارش ها"
+          icon={<Icon name="list" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("سفارش ها")}
+        />
+
+        {/* Application Settings/Information */}
+        <ExpandableCard
+          title="تنظیمات اپلیکیشن"
+          icon={<Icon name="settings" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("تنظیمات اپلیکیشن")}
+        />
+
         <ExpandableCard
           title="امنیت و محرمانگی"
+          icon={<Icon name="shield" size={20} color="#6B7280" />}
           isAccordion={true}
           defaultExpanded={false}
-          onPress={() => console.log("Security card pressed")}
+          onPress={() => handleMenuPress("امنیت و محرمانگی")}
         >
           <View style={styles.securityContent}>
             <Text size={2} color="gray" style={styles.securityText}>
@@ -261,6 +264,27 @@ function Profile() {
             </View>
           </View>
         </ExpandableCard>
+
+        <ExpandableCard
+          title="پشتیبانی و سوالات متداول"
+          icon={<Icon name="help-circle" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("پشتیبانی و سوالات متداول")}
+        />
+
+        <ExpandableCard
+          title="قوانین و مقررات"
+          icon={<Icon name="file-text" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("قوانین و مقررات")}
+        />
+
+        <ExpandableCard
+          title="درباره اپلیکیشن سابیت"
+          icon={<Icon name="info" size={20} color="#6B7280" />}
+          onPress={() => handleMenuPress("درباره اپلیکیشن سابیت")}
+        />
+
+        {/* Logout Button */}
+        <LogoutButton onPress={handleLogout} />
       </ScrollView>
     </Background>
   );
