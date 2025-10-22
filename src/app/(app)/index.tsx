@@ -10,11 +10,25 @@ import { StyleSheet, View } from "react-native";
 import { Pressable, ScrollView } from "react-native-gesture-handler";
 
 const categoriesData: any[] = [
-  { id: "1", title: "Title 1", icon: "url1" },
-  { id: "2", title: "Title 2", icon: "url2" },
-  { id: "3", title: "Title 3", icon: "url3" },
-  { id: "4", title: "Title 4", icon: "url4" },
-  { id: "5", title: "Title 5", icon: "url5" },
+  { id: "1", title: "ادبیات", icon: "book" },
+  { id: "2", title: "تاریخ", icon: "clock-o" },
+  { id: "3", title: "علوم", icon: "flask" },
+  { id: "4", title: "هنر", icon: "paint-brush" },
+  { id: "5", title: "فلسفه", icon: "lightbulb-o" },
+  { id: "6", title: "دین", icon: "star" },
+  { id: "7", title: "روانشناسی", icon: "heart" },
+  { id: "8", title: "اقتصاد", icon: "line-chart" },
+  { id: "9", title: "تکنولوژی", icon: "laptop" },
+  { id: "10", title: "ورزش", icon: "futbol-o" },
+  { id: "11", title: "سفر", icon: "plane" },
+  { id: "12", title: "آشپزی", icon: "cutlery" },
+];
+
+const contentTypesData: any[] = [
+  { id: "1", title: "عکس", icon: "camera" },
+  { id: "2", title: "ویدیویی", icon: "play-circle" },
+  { id: "3", title: "صوتی", icon: "headphones" },
+  { id: "4", title: "متنی", icon: "file-text-o" },
 ];
 export default function Tab() {
   const { signOut, user } = useAuth();
@@ -44,6 +58,7 @@ export default function Tab() {
             <Text style={customStyles.signOutText}>Sign Out</Text>
           </Pressable>
         </Box>
+
         <CardHorizontal
           title="تازه‌ها"
           data={newestList?.biblioList || []}
@@ -51,11 +66,11 @@ export default function Tab() {
         />
         <CardHorizontal
           title="انواع منابع"
-          data={categoriesData}
-          renderItem={(item, index) => (
+          data={categoriesData as any}
+          renderItem={(item: any, index) => (
             <Pressable key={item.id} style={customStyles.itemBox}>
               <View style={customStyles.imgCategory}>
-                <FontAwesome name="book" size={24} color="black" />
+                <FontAwesome name={item.icon} size={24} color="black" />
                 <Text>{item.title}</Text>
               </View>
             </Pressable>
@@ -68,11 +83,11 @@ export default function Tab() {
         />
         <CardHorizontal
           title="دسته‌بندی موضوعی"
-          data={categoriesData}
-          renderItem={(item, index) => (
+          data={categoriesData as any}
+          renderItem={(item: any, index) => (
             <Pressable key={item.id} style={customStyles.itemBox}>
               <View style={customStyles.imgCategory}>
-                <FontAwesome name="book" size={24} color="black" />
+                <FontAwesome name={item.icon} size={24} color="black" />
                 <Text>{item.title}</Text>
               </View>
             </Pressable>
