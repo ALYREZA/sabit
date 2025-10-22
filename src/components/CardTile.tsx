@@ -15,7 +15,7 @@ export function CardTile({ title, icon, onPress }: CardTileProps) {
   const border = useColor("border");
 
   return (
-    <Pressable onPress={onPress} style={{ width: 156, minHeight: 164 }}>
+    <Pressable onPress={onPress} style={{ flex: 1, minHeight: 164 }}>
       <Box
         backgroundColor={surface}
         borderRadius="6"
