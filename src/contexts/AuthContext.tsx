@@ -50,6 +50,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
     events.emit("auth:token", token ?? null);
   }, [token]);
 
+  events.on("auth:logout", () => {
+    signOut();
+  });
+
   const signIn = (authToken: string, refreshToken: string) => {
     setToken(authToken);
     setRefreshToken(refreshToken);

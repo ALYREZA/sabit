@@ -53,6 +53,9 @@ export const api = ky.create({
     beforeError: [
       async (error) => {
         const response = await error.response.json();
+        if (error.response.status === 401) {
+          events.emit("auth:logout");
+        }
         return response as HTTPError;
       },
     ],

@@ -6,6 +6,7 @@ import { Box } from "@/kits/Box";
 import { Text } from "@/kits/typography";
 import Icon from "@expo/vector-icons/Feather";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import { useState } from "react";
 import {
   Image,
@@ -170,6 +171,12 @@ function Profile() {
             </View>
           </View>
         </Box>
+
+        <ExpandableCard
+          title="احراز هویت"
+          icon={<Icon name="info" size={20} color="#6B7280" />}
+          onPress={() => router.push("/(shared)/profile/authentication")}
+        />
 
         {/* User-Specific Actions */}
         <ExpandableCard

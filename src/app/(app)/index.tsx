@@ -51,14 +51,6 @@ export default function Tab() {
         nestedScrollEnabled
         contentContainerStyle={customStyles.container}
       >
-        {/* User info and sign out button */}
-        <Box px="5" mb="4">
-          <Text>Welcome, {user?.name || "User"}!</Text>
-          <Pressable onPress={signOut} style={customStyles.signOutButton}>
-            <Text style={customStyles.signOutText}>Sign Out</Text>
-          </Pressable>
-        </Box>
-
         <CardHorizontal
           title="تازه‌ها"
           data={newestList?.biblioList || []}
