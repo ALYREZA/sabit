@@ -1,36 +1,17 @@
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { ExpandableCard } from "@/components/Card";
 import { LogoutButton } from "@/components/LogoutButton";
+import { useAuth } from "@/contexts/AuthContext";
 import { Background } from "@/kits/Background";
 import { Box } from "@/kits/Box";
 import { Text } from "@/kits/typography";
 import Icon from "@expo/vector-icons/Feather";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { useState } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
-interface UserData {
-  name: string;
-  email: string;
-  isMember: boolean;
-  expirationDate?: string;
-  profileImage?: string;
-}
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
 function Profile() {
-  const [userData] = useState<UserData>({
-    name: "نام و نام خانوادگی",
-    email: "name.family@gmail.com",
-    isMember: false,
-    expirationDate: "",
-  });
+  const { user } = useAuth();
 
   const handleProfileImageChange = () => {
     console.log("Change profile image");
@@ -71,16 +52,9 @@ function Profile() {
               colors={["#8B5CF6", "#EC4899"]}
               style={styles.profileImageGradient}
             >
-              {userData.profileImage ? (
-                <Image
-                  source={{ uri: userData.profileImage }}
-                  style={styles.profileImage}
-                />
-              ) : (
-                <View style={styles.profileImagePlaceholder}>
-                  <Icon name="user" size={40} color="white" />
-                </View>
-              )}
+              <View style={styles.profileImagePlaceholder}>
+                <Icon name="user" size={40} color="white" />
+              </View>
             </LinearGradient>
             <TouchableOpacity
               style={styles.cameraOverlay}
@@ -102,7 +76,7 @@ function Profile() {
             align="center"
             style={styles.userName}
           >
-            {userData.name}
+            {user?.firstName} {user?.lastName}
           </Text>
         </Box>
 
