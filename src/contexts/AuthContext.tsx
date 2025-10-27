@@ -4,9 +4,14 @@ import { useStorageState } from "./useStorageState";
 
 export interface User {
   id: string;
-  email: string;
-  name: string;
-  avatar?: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  fatherName: string;
+  birthDate: string;
+  mobile: string;
+  balance: number;
+  authorized: boolean;
 }
 
 export interface AuthContextType {

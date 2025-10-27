@@ -1,6 +1,6 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { loginRequest, registerRequest } from "@/utils/http/auth";
-import { LoginRequestProps } from "@/utils/http/type";
+import { LoginRequestProps, LoginRequestResponse } from "@/utils/http/type";
 import { useMutation } from "@tanstack/react-query";
 
 export function useRegister() {
@@ -10,7 +10,7 @@ export function useRegister() {
   });
 }
 export function useLogin({ username }: { username: string }) {
-  const { signIn } = useAuth();
+  const { signIn, setUser } = useAuth();
   return useMutation({
     mutationFn: (data: LoginRequestProps) =>
       loginRequest({
@@ -20,8 +20,19 @@ export function useLogin({ username }: { username: string }) {
         ...data,
       }),
     mutationKey: ["authentication", "login"],
-    onSuccess: (data) => {
-      signIn(data.access_token, data.refresh_token);
+    onSuccess: (data: LoginRequestResponse) => {
+      signIn(data.accessToken, data.refreshToken);
+      setUser({
+        id: data.id,
+        username: data.username,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        fatherName: data.fatherName,
+        birthDate: data.birthDate,
+        mobile: data.mobile,
+        balance: data.balance,
+        authorized: data.authorized,
+      });
     },
   });
 }

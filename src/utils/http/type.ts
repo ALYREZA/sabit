@@ -19,18 +19,21 @@ export type LoginRequestProps = {
 };
 
 export type LoginRequestResponse = {
-  access_token: string;
-  expires_in: number;
-  refresh_expires_in: number;
-  refresh_token: string;
-  token_type: string;
-  id_token: string;
-  "not-before-policy": number;
-  session_state: string;
-  scope: string;
-  error: string;
-  error_description: string;
-  error_uri: string;
+  id: string;
+  username: string;
+  firstName: string;
+  fatherName: string;
+  birthDate: string;
+  nationalCode: string;
+  lastName: string;
+  mobile: string;
+  accessToken: string;
+  refreshToken: string;
+  balance: number;
+  authorized: boolean;
+  refreshExpiresAt: number;
+  expiresAt: number;
+  defaultUnits: any[];
 };
 
 export interface SearchRequestProps {
